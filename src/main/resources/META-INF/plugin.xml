@@ -1,0 +1,14 @@
+<idea-plugin>
+    <id>ru.salamon.AnalyzeHelper</id>
+    <name>Analyze Helper</name>
+    <vendor email="slamosha@yandex.ru"/>
+
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <analyzeStacktraceFilter implementation="ru.salamon.FailureInspectionFilter"/>
+    </extensions>
+
+</idea-plugin>
