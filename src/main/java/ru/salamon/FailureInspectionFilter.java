@@ -34,20 +34,26 @@ class FailureInspectionFilter implements Filter {
     @Override
     public @Nullable Result applyFilter(@NotNull String line, int entireLength) {
         if (line.isBlank()) return null;
-        line = line.trim();
-        var matcher = PATTERN.matcher(line.trim());
-        String partialFilePath = null;
-        var lineNumber = 0;
+        var localLine = line.trim();
+        var matcher = PATTERN.matcher(localLine);
+
+        String partialFilePath;
+        String rawNumber;
         if (matcher.find()) {
             partialFilePath = matcher.group(1);
-            lineNumber = Integer.parseInt(matcher.group(2));
+            rawNumber = matcher.group(2);
         } else {
             return null;
         }
+        var lineNumber = Integer.parseInt(rawNumber);
+        var vf = LocalFileSystem.getInstance().findFileByPath(getLocalPath(partialFilePath));
 
-        final var vf = LocalFileSystem.getInstance().findFileByPath(getLocalPath(partialFilePath));
         if (vf == null) return null;
-        return new Result(entireLength - line.length(), entireLength, new OpenFileHyperlinkInfo(myProject, vf, lineNumber + 1));
+        return new Result(
+                entireLength - localLine.length() + 1,
+                entireLength - (localLine.length() - (partialFilePath.length() + rawNumber.length() + 3)),
+                new OpenFileHyperlinkInfo(myProject, vf, lineNumber > 0 ? lineNumber - 1 : lineNumber)
+        );
     }
 
     //Original code - PhpLocalPathMapper
