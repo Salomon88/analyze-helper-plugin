@@ -1,8 +1,8 @@
 package ru.salamon;
 
 import com.intellij.execution.filters.Filter;
-import com.intellij.execution.filters.HyperlinkInfo;
 import com.intellij.execution.filters.OpenFileHyperlinkInfo;
+import com.intellij.notification.*;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
@@ -48,7 +48,11 @@ class FailureInspectionFilter implements Filter {
         var lineNumber = Integer.parseInt(rawNumber);
         var vf = LocalFileSystem.getInstance().findFileByPath(getLocalPath(partialFilePath));
 
-        if (vf == null) return null;
+        if (vf == null) {
+            Notifications.Bus
+                    .notify(new Notification("Plugin Error", "File " + partialFilePath + " wasn't found in project ", NotificationType.ERROR));
+            return null;
+        }
         return new Result(
                 entireLength - localLine.length() + 1,
                 entireLength - (localLine.length() - (partialFilePath.length() + rawNumber.length() + 3)),
