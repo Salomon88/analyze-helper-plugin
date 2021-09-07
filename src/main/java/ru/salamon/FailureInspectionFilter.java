@@ -26,7 +26,7 @@ class FailureInspectionFilter implements Filter {
     private final Pattern PATTERN;
 
     public FailureInspectionFilter(Project project) {
-        PATTERN = Pattern.compile("[-+] /([a-zA-Z0-9/.-_]*):([0-9]*)\\s.*");
+        PATTERN = Pattern.compile("[-+]\\s/([a-zA-Z0-9/._-]*):([0-9]*)\\s.*");
         myProject = project;
     }
 
