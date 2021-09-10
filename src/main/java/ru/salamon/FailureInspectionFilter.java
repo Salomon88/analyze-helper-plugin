@@ -4,6 +4,8 @@ import com.intellij.execution.filters.Filter;
 import com.intellij.execution.filters.OpenFileHyperlinkInfo;
 import com.intellij.notification.*;
 import com.intellij.openapi.application.ReadAction;
+import com.intellij.openapi.editor.markup.EffectType;
+import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
@@ -11,10 +13,12 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.ui.JBColor;
 import com.intellij.util.PathUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -56,7 +60,9 @@ class FailureInspectionFilter implements Filter {
         return new Result(
                 entireLength - localLine.length() + 1,
                 entireLength - (localLine.length() - (partialFilePath.length() + rawNumber.length() + 3)),
-                new OpenFileHyperlinkInfo(myProject, vf, lineNumber > 0 ? lineNumber - 1 : lineNumber)
+                new OpenFileHyperlinkInfo(myProject, vf, lineNumber > 0 ? lineNumber - 1 : lineNumber),
+                null,
+                new TextAttributes(JBColor.GREEN, null, JBColor.GREEN, EffectType.SEARCH_MATCH, Font.PLAIN)
         );
     }
 
