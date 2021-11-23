@@ -1,0 +1,4 @@
+%%project test_perf_testing
+%startProfile test_perf_testing event=alloc
+%stopProfile traces=1000
+%exitApp
