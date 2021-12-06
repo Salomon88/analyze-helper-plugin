@@ -16,4 +16,4 @@ jobs:
       - name: Build with Gradle
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: ./gradlew runIde
+          run: ./gradlew runIde --debug
