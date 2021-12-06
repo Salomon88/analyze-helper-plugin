@@ -1,4 +1,5 @@
-%%project test_perf_testing
+%%project test
 %startProfile test_perf_testing event=alloc
+%openFile wi63254/alias.php
 %stopProfile traces=1000
 %exitApp
