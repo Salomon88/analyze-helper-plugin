@@ -19,7 +19,7 @@ intellij {
     version = '2021.3'
     runIde {
         plugins = ['com.jetbrains.performancePlugin:213.5744.122']
-        args = ["$rootDir/test", "xvfb-run -s -ac -screen 0 1920x1080x24 --auto-servernum sh"]
+        args = ["$rootDir/test"]
         jvmArgs = ["-Djdk.attach.allowAttachSelf=true", "-Dtestscript.filename=$rootDir/test.ijperf", "-DintegrationTests.profiler=async"]
     }
 }
