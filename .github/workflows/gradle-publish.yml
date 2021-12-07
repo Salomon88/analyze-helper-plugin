@@ -16,5 +16,5 @@ jobs:
       - name: Build with Gradle
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: ./gradlew runIde --debug
-          options: -s -ac -screen 0 1920x1080x24
+          run: ls -la && ./gradlew runIde --debug
+          options: -ac -screen 0 1920x1080x24
