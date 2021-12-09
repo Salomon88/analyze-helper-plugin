@@ -17,6 +17,6 @@ jobs:
       - name: export var
         run: export DISPLAY=':0.0'
       - name: Run xvfb
-        run: Xvfb --auto-servernum -s -ac -screen 0 1920x1080x24
+        run: Xvfb :99 -s -ac -screen 0 1920x1080x24
       - name: Build with Gradle
         run: env && ./gradlew runIde --debug
