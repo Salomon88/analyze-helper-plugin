@@ -13,8 +13,9 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Run xvfb
+        run: /usr/bin/xvfb-run --auto-servernum -s -ac -screen 0 1920x1080x24
+      - name: export var
+        run:  export DISPLAY=:0.0
       - name: Build with Gradle
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: ./gradlew runIde --debug
-          options: -ac -screen 0 1920x1080x24
+        run: env && ./gradlew runIde --debug
