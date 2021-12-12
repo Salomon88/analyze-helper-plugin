@@ -2,7 +2,7 @@ name: Build AnalyzeHelper
 on: [ push ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -17,4 +17,4 @@ jobs:
       - name: Run xvfb
         run: Xvfb :99 -s -ac -screen 0 1920x1080x24 > /dev/null 2>&1 &
       - name: Build with Gradle
-        run: export DISPLAY=':99.0' && env && ./gradlew runIde --stacktrace
+        run: export DISPLAY=':99.0' && env && ./gradlew runIde --debug
