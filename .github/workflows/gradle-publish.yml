@@ -22,8 +22,8 @@ jobs:
           options: "-ac -screen 0 1920x1080x24"
         continue-on-error: true
       - name: Finding logs
-        run: ls -la /home/runner/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.3/75777e10a0e2880bc02945066dda2480a696c3d9/ideaIC-2021.3
+        run: ls -la ~/Library/Logs/JetBrains/IntelliJIdea2021.3
       - uses: actions/upload-artifact@v2
         with:
           name: idee-artifact
-          path: /home/runner/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.3/75777e10a0e2880bc02945066dda2480a696c3d9/ideaIC-2021.3
+          path: ~/Library/Logs/JetBrains/IntelliJIdea2021.3
