@@ -22,7 +22,7 @@ intellij {
     runIde {
         plugins = ['com.jetbrains.performancePlugin:213.5744.122']
         args = ["$rootDir/test"]
-        jvmArgs = ["-Djdk.attach.allowAttachSelf=true", "-Dtestscript.filename=$rootDir/test.ijperf", "-DintegrationTests.profiler=async"]
+        jvmArgs = ["-Djdk.attach.allowAttachSelf=true", "-Dtestscript.filename=$rootDir/test/test.ijperf", "-DintegrationTests.profiler=async"]
         timeout = Duration.ofMinutes(10)
     }
 }
