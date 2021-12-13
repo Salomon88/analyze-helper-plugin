@@ -15,8 +15,10 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: gradle
+      - name: Update packages
+        run: sudo apt-get update
       - name: Install window manage
-        run: sudo apt-get update && apt-get install ubuntu-desktop -y
+        run: sudo apt-get install ubuntu-desktop -y
       - name: Run headless test
         uses: GabrielBB/xvfb-action@v1
         with:
