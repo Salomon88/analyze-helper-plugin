@@ -22,4 +22,4 @@ jobs:
           options: "-ac -screen 0 1920x1080x24"
         continue-on-error: true
       - name: Finding logs
-        run: ls -la /home/runner/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.3
+        run: ls -la /home/runner/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.3/e4ff3742f7857997b82b6785bd784974614980e
