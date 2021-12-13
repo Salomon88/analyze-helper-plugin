@@ -22,8 +22,8 @@ jobs:
           options: "-ac -screen 0 1920x1080x24"
         continue-on-error: true
       - name: Finding logs
-        run: ls -la ~/Library/Logs/JetBrains/IntelliJIdea2021.3
+        run: ls -la ~
       - uses: actions/upload-artifact@v2
         with:
           name: idee-artifact
-          path: ~/Library/Logs/JetBrains/IntelliJIdea2021.3
+          path: ~/.cache/JetBrains/IntelliJIdea2020.3
