@@ -22,13 +22,19 @@ jobs:
           options: "-ac -screen 0 1920x1080x24"
         continue-on-error: true
       - name: Search home
-        run: find /home -name "log.txt"
+        run: find /home -name "log.*" 2>/dev/nul
+      - name: Search tilda
+        run: find ~ -name "log.*" 2>/dev/nul
+        continue-on-error: true
       - name: Search opt
-        run: find /opt -name "log.txt"
+        run: find /opt -name "log.*" 2>/dev/nul
+        continue-on-error: true
       - name: Search usr
-        run: find /usr -name "log.txt"
+        run: find /usr -name "log.*" 2>/dev/nul
+        continue-on-error: true
       - name: Search tmp
-        run: find /tmp -name "log.txt"
+        run: find /tmp -name "log.*" 2>/dev/nul
+        continue-on-error: true
       - uses: actions/upload-artifact@v2
         with:
           name: idee-artifact
