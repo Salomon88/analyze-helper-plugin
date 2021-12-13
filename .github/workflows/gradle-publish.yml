@@ -16,7 +16,7 @@ jobs:
           distribution: 'adopt'
           cache: gradle
       - name: Install window manage
-        run: sudo apt-get install ubuntu-desktop
+        run: sudo apt-get update && apt-get install ubuntu-desktop
       - name: Run headless test
         uses: GabrielBB/xvfb-action@v1
         with:
