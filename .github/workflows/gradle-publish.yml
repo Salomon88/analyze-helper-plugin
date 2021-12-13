@@ -23,5 +23,5 @@ jobs:
         continue-on-error: true
       - uses: actions/upload-artifact@v2
         with:
-         name: idee-artifact
-         path: /home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log/idea.log
+         name: idee-logs
+         path: /home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log
