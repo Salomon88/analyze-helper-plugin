@@ -21,8 +21,14 @@ jobs:
           run: ./gradlew clean runIde --debug
           options: "-ac -screen 0 1920x1080x24"
         continue-on-error: true
-      - name: Finding logs
-        run: find / -name "log.txt"
+      - name: Search home
+        run: find /home -name "log.txt"
+      - name: Search opt
+        run: find /opt -name "log.txt"
+      - name: Search usr
+        run: find /usr -name "log.txt"
+      - name: Search tmp
+        run: find /tmp -name "log.txt"
       - uses: actions/upload-artifact@v2
         with:
           name: idee-artifact
