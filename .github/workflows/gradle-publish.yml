@@ -24,7 +24,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
          name: idee-artifact
-         path: /home/runner/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.3/75777e10a0e2880bc02945066dda2480a696c3d9/ideaIC-2021.3/bin/log.xml
-      - name: Search plugin dir
-        run: find ~ -name "idea.log*"
-        continue-on-error: true
+         path: /home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log/idea.log
