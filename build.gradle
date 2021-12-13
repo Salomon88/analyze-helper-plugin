@@ -18,7 +18,7 @@ dependencies {
 }
 
 intellij {
-    version = '2021.3'
+    version = 'IU-2021.3'
     runIde {
         plugins = ['com.jetbrains.performancePlugin:213.5744.122']
         args = ["$rootDir/test"]
