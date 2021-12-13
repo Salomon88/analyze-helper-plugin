@@ -21,6 +21,13 @@ jobs:
           run: ./gradlew clean runIde --debug
           options: "-ac -screen 0 1920x1080x24"
         continue-on-error: true
+      - uses: actions/upload-artifact@v2
+        with:
+         name: idee-artifact
+         path: /home/runner/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.3/75777e10a0e2880bc02945066dda2480a696c3d9/ideaIC-2021.3/bin/log.xml
+      - name: Search plugin dir
+        run: find /home/runner/work/analyze-helper-plugin/ -name "log.*" 2>/dev/nul
+        continue-on-error: true
       - name: Search home
         run: find /home -name "log.*" 2>/dev/nul
         continue-on-error: true
@@ -36,7 +43,3 @@ jobs:
       - name: Search tmp
         run: find /tmp -name "log.*" 2>/dev/nul
         continue-on-error: true
-      - uses: actions/upload-artifact@v2
-        with:
-          name: idee-artifact
-          path: /home/runner/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.3/75777e10a0e2880bc02945066dda2480a696c3d9/ideaIC-2021.3/bin/log.xml
