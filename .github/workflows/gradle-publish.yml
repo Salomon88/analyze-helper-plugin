@@ -23,6 +23,7 @@ jobs:
         continue-on-error: true
       - name: Search home
         run: find /home -name "log.*" 2>/dev/nul
+        continue-on-error: true
       - name: Search tilda
         run: find ~ -name "log.*" 2>/dev/nul
         continue-on-error: true
