@@ -22,7 +22,7 @@ jobs:
           options: "-ac -screen 0 1920x1080x24"
         continue-on-error: true
       - name: Finding logs
-        run: ls -la ~
+        run: ls -la ~/runners
       - uses: actions/upload-artifact@v2
         with:
           name: idee-artifact
