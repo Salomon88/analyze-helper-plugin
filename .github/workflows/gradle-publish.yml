@@ -17,4 +17,4 @@ jobs:
       - name: Run xvfb
         run: Xvfb :99 -s -ac -screen 0 1920x1080x24 > /dev/null 2>&1 &
       - name: Build with Gradle
-        run: export DISPLAY=':99.0' && env && ./gradlew runIde --debug
+        run: export DISPLAY=':99.0' && env && ./gradlew clean runIde --debug --stacktrace
