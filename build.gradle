@@ -22,7 +22,7 @@ intellij {
     runIde {
         plugins = ['com.jetbrains.performancePlugin:213.5744.122']
         args = ["$rootDir/test"]
-        jvmArgs = ["-Djdk.attach.allowAttachSelf=true", "-Dtestscript.filename=$rootDir/test/test.ijperf", "-DintegrationTests.profiler=async", "-Didea.is.integration.test=true", "-Dide.performance.screenshot.before.kill=/home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log/screenshot_beforeKill.jpg", "-Didea.log.debug.categories", "-Didea.log.trace.categories"]
+        jvmArgs = ["-Djdk.attach.allowAttachSelf=true", "-Dtestscript.filename=$rootDir/test/test.ijperf", "-DintegrationTests.profiler=async", "-Didea.is.integration.test=true", "-Dide.performance.screenshot.before.kill=/home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log/screenshot_beforeKill.jpg"]
         timeout = Duration.ofMinutes(6).plusSeconds(15)
     }
 }
