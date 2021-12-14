@@ -21,15 +21,11 @@ jobs:
       - name: Run xvfb
         run: Xvfb :99 -s -ac -screen 0 1920x1080x24 > /dev/null 2>&1 &
       - name: Run performance test
-        run: export DISPLAY=':99.0' && ./gradlew runIde --debug &
-      - name: Install xwd
-        run: sudo apt-get install x11-apps
-      - name: Sleep for 30 seconds
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '30s'
-      - name: Take screentshot
-        run: xwd -display :99.0 -root -silent | convert xwd:- png:/home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log/screenshot.png
+        run: export DISPLAY=':99.0' && ./gradlew runIde --debug
+#      - name: Install xwd
+#        run: sudo apt-get install x11-apps
+#      - name: Take screenshot
+#        run: xwd -display :99.0 -root -silent | convert xwd:- png:/home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log/screenshot.png
       - uses: actions/upload-artifact@v2
         with:
          name: idee-logs

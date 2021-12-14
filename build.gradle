@@ -33,7 +33,6 @@ intellij {
                     "-Dlinux.native.menu.force.disable=true",
                     "-Didea.fatal.error.notification=true"
         ]
-        timeout = Duration.ofMinutes(6).plusSeconds(15)
     }
 }
 
