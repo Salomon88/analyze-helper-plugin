@@ -26,12 +26,13 @@ intellij {
                     "-Dtestscript.filename=$rootDir/test/test.ijperf",
                     "-DintegrationTests.profiler=async",
                     "-Didea.is.integration.test=true",
-                    "-Dide.performance.screenshot.before.kill=/home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log/screenshot_beforeKill.jpg",
+                    "-Dide.performance.screenshot.before.kill=$rootDir/log/screenshot_beforeKill.jpg",
                     "-Djb.privacy.policy.text=<!--999.999-->",
                     "-Djb.consents.confirmation.enabled=false",
                     "-Didea.local.statistics.without.report=true",
                     "-Dlinux.native.menu.force.disable=true",
-                    "-Didea.fatal.error.notification=true"
+                    "-Didea.fatal.error.notification=true",
+                    "-Didea.log.path=$rootDir/log"
         ]
     }
 }
