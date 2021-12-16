@@ -17,6 +17,7 @@ import com.intellij.ui.JBColor;
 import com.intellij.util.PathUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.salamon.resources.ResourceFetcher;
 
 import java.awt.*;
 import java.io.File;

@@ -11,4 +11,10 @@
         <analyzeStacktraceFilter implementation="ru.salamon.FailureInspectionFilter"/>
     </extensions>
 
+    <actions>
+        <action id="ru.salamon.actions.FetchBuildListAction" class="ru.salamon.actions.FetchBuildListAction"
+                text="Analyze build test failures">
+            <add-to-group group-id="AnalyzeActionsPopup" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
