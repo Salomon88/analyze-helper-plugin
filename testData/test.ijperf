@@ -1,6 +1,6 @@
 %%project project1
-%startProfile test_alloc_ event=alloc
+%startProfile test_alloc_event=alloc
 %openFile wi63254/alias.php
-%takeScreenshot /Users/alexey.kryuchkov/Desktop/performance-plugin-presentation/AnalyzeHelper/artifacts/project1/before_start.jpg
+%takeScreenshot /Users/alexey.kryuchkov/Desktop/performance-plugin-presentation/AnalyzeHelper/log/project1/before_start.jpg
 %stopProfile traces=999,flamegraph
 %exitApp
