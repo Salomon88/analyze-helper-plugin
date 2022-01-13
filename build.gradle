@@ -33,9 +33,9 @@ intellij {
     mkdir(snapshotsDir)
     runIde {
         plugins = ['com.jetbrains.performancePlugin:213.5744.122']
-        args = ["$rootDir/test"]
+        args = ["$rootDir/testData/project1"]
         jvmArgs = ["-Djdk.attach.allowAttachSelf=true",
-                   "-Dtestscript.filename=$rootDir/test/test.ijperf",
+                   "-Dtestscript.filename=$rootDir/testData/test.ijperf",
                    "-DintegrationTests.profiler=async",
                    "-Didea.is.integration.test=true",
                    "-Dide.performance.screenshot.before.kill=$rootDir/log/screenshot_beforeKill.jpg",
