@@ -1,6 +1,0 @@
-%%project test
-%%takeScreenshot /home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log/before_start.jpg
-%startProfile test_perf_testing event=alloc
-%openFile wi63254/alias.php
-%stopProfile traces=1000
-%exitApp

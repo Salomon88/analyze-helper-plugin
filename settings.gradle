@@ -1,2 +1,3 @@
 rootProject.name = 'AnalyzeHelper'
+includeBuild '../gradle-intellij-plugin'
 
