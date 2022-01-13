@@ -28,5 +28,5 @@ jobs:
 #        run: xwd -display :99.0 -root -silent | convert xwd:- png:/home/runner/work/analyze-helper-plugin/analyze-helper-plugin/build/idea-sandbox/system/log/screenshot.png
       - uses: actions/upload-artifact@v2
         with:
-         name: idee-logs
+         name: idea-artifacts
          path: log
