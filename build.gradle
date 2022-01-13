@@ -23,7 +23,30 @@ dependencies {
 }
 
 intellij {
-    version = '2021.2'
+    intellij {
+        version = '2021.3'
+        plugins = ['com.jetbrains.performancePlugin:213.5744.122']
+
+        String snapshotsDir = "$rootDir/log/snapshots"
+        mkdir(snapshotsDir)
+        runIde {
+            plugins = ['com.jetbrains.performancePlugin:213.5744.122']
+            args = ["$rootDir/testData/project1"]
+            jvmArgs = ["-Djdk.attach.allowAttachSelf=true",
+                       "-Dtestscript.filename=$rootDir/testData/test.ijperf",
+                       "-DintegrationTests.profiler=async",
+                       "-Didea.is.integration.test=true",
+                       "-Dide.performance.screenshot.before.kill=$rootDir/log/screenshot_beforeKill.jpg",
+                       "-Djb.privacy.policy.text=<!--999.999-->",
+                       "-Djb.consents.confirmation.enabled=false",
+                       "-Didea.local.statistics.without.report=true",
+                       "-Dlinux.native.menu.force.disable=true",
+                       "-Didea.fatal.error.notification=true",
+                       "-Didea.log.path=$rootDir/log",
+                       "-Dsnapshots.path=$snapshotsDir"
+            ]
+        }
+    }
 }
 
 patchPluginXml {
