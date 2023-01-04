@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation('org.jetbrains.teamcity:teamcity-rest-client:1.14.0') {
+    implementation('org.jetbrains.teamcity:teamcity-rest-client:1.18.0') {
         exclude group: 'org.slf4j', module: 'slf4j-api'
     }
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'

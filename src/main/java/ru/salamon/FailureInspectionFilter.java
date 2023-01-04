@@ -3,35 +3,25 @@ package ru.salamon;
 import com.intellij.execution.filters.Filter;
 import com.intellij.execution.filters.OpenFileHyperlinkInfo;
 import com.intellij.notification.*;
-import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.editor.markup.EffectType;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.search.FilenameIndex;
-import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.ui.JBColor;
-import com.intellij.util.PathUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.salamon.resources.ResourceFetcher;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.regex.Pattern;
 
-class FailureInspectionFilter implements Filter {
+import static com.intellij.util.PathUtil.getLocalPath;
 
+public class FailureInspectionFilter implements Filter {
+
+    public static final Pattern PATTERN = Pattern.compile("[-+]\\s/([()a-zA-Z0-9/._-]*):([0-9]*)\\s.*");
     private final Project myProject;
-    private final Pattern PATTERN;
 
     public FailureInspectionFilter(Project project) {
-        PATTERN = Pattern.compile("[-+]\\s/([()a-zA-Z0-9/._-]*):([0-9]*)\\s.*");
         myProject = project;
     }
 
@@ -51,47 +41,23 @@ class FailureInspectionFilter implements Filter {
             return null;
         }
         var lineNumber = Integer.parseInt(rawNumber);
-        var vf = LocalFileSystem.getInstance().findFileByPath(getLocalPath(partialFilePath));
+        var vf = LocalFileSystem.getInstance().findFileByPath(myProject.getBasePath() + "/" + getLocalPath(partialFilePath));
 
-        if (vf == null) {
-            Notifications.Bus
-                    .notify(new Notification("Plugin Error", "File " + partialFilePath + " wasn't found in project ", NotificationType.ERROR));
-            return null;
+        Result result = null;
+        if (vf != null) {
+            result = new Result(
+                    entireLength - localLine.length() + 1,
+                    entireLength - (localLine.length() - (partialFilePath.length() + rawNumber.length() + 3)),
+                    new OpenFileHyperlinkInfo(myProject, vf, lineNumber > 0 ? lineNumber - 1 : lineNumber),
+                    null,
+                    new TextAttributes(JBColor.GREEN, null, JBColor.GREEN, EffectType.SEARCH_MATCH, Font.PLAIN)
+            );
         }
-        return new Result(
-                entireLength - localLine.length() + 1,
-                entireLength - (localLine.length() - (partialFilePath.length() + rawNumber.length() + 3)),
-                new OpenFileHyperlinkInfo(myProject, vf, lineNumber > 0 ? lineNumber - 1 : lineNumber),
-                null,
-                new TextAttributes(JBColor.GREEN, null, JBColor.GREEN, EffectType.SEARCH_MATCH, Font.PLAIN)
-        );
-    }
+//        else {
+//            Notifications.Bus.notify(new Notification("Plugin Error", "File " + partialFilePath + " wasn't found in project ", NotificationType.ERROR));
+//        }
 
-    //Original code - PhpLocalPathMapper
-    private String getLocalPath(@NotNull final String remoteFileUrlOrPath) {
-        final String remoteFilePath = VirtualFileManager.extractPath(remoteFileUrlOrPath);
-        final String remoteCanonicalFilePath = FileUtil.toCanonicalPath(remoteFilePath);
-
-        final String fileName = PathUtil.getFileName(remoteFilePath);
-        if (fileName.length() > 0) {
-            Collection<VirtualFile> candidates = ReadAction
-                    .compute(() -> FilenameIndex.getVirtualFilesByName(fileName, GlobalSearchScope.allScope(myProject)));
-            int i = 0;
-            for (VirtualFile candidate : candidates) {
-                int MAX_RESOLVE_ATTEMPTS = 100;
-                if (i++ > MAX_RESOLVE_ATTEMPTS) break;
-                try {
-                    final String candidateFilePath = candidate.getPath();
-                    final String resolvedFilePath = new File(candidateFilePath).getCanonicalPath();
-                    if (FileUtil.toCanonicalPath(resolvedFilePath).contains(remoteCanonicalFilePath)) {
-                        return FileUtil.toCanonicalPath(candidateFilePath);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return remoteFilePath;
+        return result;
     }
 
 }

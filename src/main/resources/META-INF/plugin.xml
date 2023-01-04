@@ -9,11 +9,25 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
         <analyzeStacktraceFilter implementation="ru.salamon.FailureInspectionFilter"/>
+        <toolWindow id="Analyzer View" anchor="bottom" factoryClass="ru.salamon.toolwindow.AnalyzerToolWindowFactory"
+                    doNotActivateOnStart="true" canCloseContents="true"/>
+        <projectService serviceImplementation="ru.salamon.toolwindow.AnalyzerView"/>
+        <notificationGroup id="PStorm test analyzer" displayType="BALLOON"/>
+        <applicationConfigurable
+                instance="ru.salamon.configuration.AppSettingsConfigurable"
+                id="ru.salamon.configuration.AppSettingsConfigurable"
+                displayName="Test Analyzer Settings"/>
+        <applicationService
+                serviceImplementation="ru.salamon.configuration.AppSettingsState"/>
     </extensions>
 
     <actions>
         <action id="ru.salamon.actions.FetchBuildListAction" class="ru.salamon.actions.FetchBuildListAction"
-                text="Analyze build test failures">
+                text="Analyze Build Test Failures">
+            <add-to-group group-id="AnalyzeActionsPopup" anchor="last"/>
+        </action>
+        <action id="ru.salamon.actions.AddMetadataContentAction" class="ru.salamon.actions.AddMetadataContentAction"
+                text="Add Metadata">
             <add-to-group group-id="AnalyzeActionsPopup" anchor="last"/>
         </action>
     </actions>
