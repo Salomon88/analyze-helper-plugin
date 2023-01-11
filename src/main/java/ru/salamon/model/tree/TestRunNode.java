@@ -3,21 +3,22 @@ package ru.salamon.model.tree;
 import com.intellij.ui.treeStructure.CachingSimpleNode;
 import com.intellij.ui.treeStructure.SimpleNode;
 import org.jetbrains.teamcity.rest.TestRun;
+import ru.salamon.model.TestRunModel;
 
 import java.util.stream.Collectors;
 
 class TestRunNode extends CachingSimpleNode {
 
-    private final TestRun testRun;
+    private final TestRunModel testRunModel;
 
-    protected TestRunNode(SimpleNode aParent, TestRun testRun) {
+    protected TestRunNode(SimpleNode aParent, TestRunModel testRunModel) {
         super(aParent);
-        this.testRun = testRun;
+        this.testRunModel = testRunModel;
     }
 
     @Override
     public String getName() {
-        return testRun.getName();
+        return testRunModel.getName();
     }
 
 
@@ -26,11 +27,13 @@ class TestRunNode extends CachingSimpleNode {
     @Override
     protected MetadataNodeItem[] buildChildren() {
 
-        if (testRun.getMetadataValues() == null || testRun.getMetadataValues().isEmpty()) {
+        if (testRunModel.getMetadata().isEmpty()) {
             return new MetadataNodeItem[]{new MetadataNodeItem(this, "No test metadata was found")};
         }
 
-        return testRun.getMetadataValues().stream()
+        return testRunModel
+                .getMetadata()
+                .stream()
                 .map(metadata -> new MetadataNodeItem(this, metadata))
                 .collect(Collectors.toList())
                 .toArray(new MetadataNodeItem[1]);

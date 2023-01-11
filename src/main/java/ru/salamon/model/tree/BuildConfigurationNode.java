@@ -1,31 +1,27 @@
 package ru.salamon.model.tree;
 
-import org.jetbrains.teamcity.rest.TestStatus;
-import ru.salamon.resources.ResourceFetcher;
+import ru.salamon.model.BuildConfigurationModel;
 
 class BuildConfigurationNode extends TreeNode {
-    private final String name;
-    private final String configurationId;
 
+    private final BuildConfigurationModel buildConfigurationModel;
 
-    public BuildConfigurationNode(ProjectNode tcRootNode, String name, String configurationId) {
+    public BuildConfigurationNode(ProjectNode tcRootNode, BuildConfigurationModel buildConfigurationModel) {
         super(tcRootNode);
-        this.name = name;
-        this.configurationId = configurationId;
+        this.buildConfigurationModel = buildConfigurationModel;
     }
 
     @Override
     protected BuildNode[] buildChildren() {
-        var buildList = ResourceFetcher.fetchBuildsByConfId(this.configurationId);
-
-        return buildList
+        return buildConfigurationModel
+                .getBuildModels()
                 .stream()
-                .map(build -> new BuildNode(this, build.testRuns(TestStatus.FAILED), build.getName() + " - " + build.getStartDateTime()))
+                .map(build -> new BuildNode(this, build))
                 .toArray(BuildNode[]::new);
     }
 
     @Override
     public String getName() {
-        return name;
+        return buildConfigurationModel.getName();
     }
 }

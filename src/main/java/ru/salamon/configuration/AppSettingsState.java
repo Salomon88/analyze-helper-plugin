@@ -8,6 +8,8 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 @State(
         name = "ru.salamon.configuration.AppSettingsState",
@@ -15,8 +17,7 @@ import javax.annotation.Nullable;
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
-    public String userId = "John Q. Public";
-    public boolean ideaStatus = false;
+    public List<String> projectIds = new ArrayList<String>();
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);

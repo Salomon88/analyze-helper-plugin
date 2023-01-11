@@ -2,36 +2,32 @@ package ru.salamon.model.tree;
 
 import com.intellij.ui.treeStructure.CachingSimpleNode;
 import com.intellij.ui.treeStructure.SimpleNode;
-import kotlin.sequences.Sequence;
-import org.jetbrains.teamcity.rest.TestRun;
+import ru.salamon.model.BuildModel;
 
-import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 class BuildNode extends CachingSimpleNode {
 
-    private final String name;
+    private final BuildModel buildModel;
 
-    private final Sequence<TestRun> testRuns;
-
-    protected BuildNode(SimpleNode aParent, Sequence<TestRun> testRuns, String name) {
+    protected BuildNode(SimpleNode aParent, BuildModel buildModel) {
         super(aParent);
-        this.name = name;
-        this.testRuns = testRuns;
+        this.buildModel = buildModel;
     }
 
     @Override
     public String getName() {
-        return name;
+        return buildModel.getBuildName();
     }
 
     @Override
     protected SimpleNode[] buildChildren() {
-        var testRunNodes = new ArrayList<TestRunNode>();
-        testRuns
-                .iterator()
-                .forEachRemaining(testRun -> testRunNodes.add(new TestRunNode(this, testRun)));
-
-        return testRunNodes.toArray(new TestRunNode[0]);
-    }
+        return buildModel
+                .getTestRuns()
+                .stream()
+                .map(testRun -> new TestRunNode(this, testRun))
+                .collect(Collectors.toSet())
+                .toArray(new TestRunNode[0]);
+        }
 
 }

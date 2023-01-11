@@ -4,13 +4,13 @@ import com.intellij.ide.CommonActionsManager;
 import com.intellij.ide.DefaultTreeExpander;
 import com.intellij.ide.util.PsiNavigationSupport;
 import com.intellij.ide.util.treeView.NodeDescriptor;
-import com.intellij.notification.NotificationGroupManager;
-import com.intellij.notification.NotificationType;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.ui.Splitter;
+import com.intellij.openapi.ui.panel.ProgressPanel;
+import com.intellij.openapi.ui.panel.ProgressPanelBuilder;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.ui.AutoScrollToSourceHandler;
 import com.intellij.ui.OnePixelSplitter;
@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.salamon.FailureInspectionFilter;
+import ru.salamon.model.ProjectModel;
+import ru.salamon.model.builder.ProjectBuilder;
 import ru.salamon.model.tree.ProjectNode;
 
 import javax.swing.*;
@@ -50,7 +52,7 @@ public class AnalyzerPanel extends SimpleToolWindowPanel implements DataProvider
                     @NotNull
                     @Override
                     public ProjectNode getRootElement() {
-                        return new ProjectNode(null, bundle.getString("buildId"));
+                        return new ProjectNode(null, (ProjectModel) ProjectBuilder.project());
                     }
                 }, null, myProject
         );
@@ -80,8 +82,8 @@ public class AnalyzerPanel extends SimpleToolWindowPanel implements DataProvider
     //TODO add all these configuration and add ability to add custom
     //ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDefault
     // ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDefaultPhp8
-   //ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDisabled
-   //ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDisabledPhp8
+    //ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDisabled
+    //ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDisabledPhp8
 
     //+ /usesnpe/UsesRedundant.php:67 WEAK WARNING (int) 'Type cast is redundant'
     // + wp-includes/sodium_compat/src/Core32/HSalsa20.php
@@ -121,7 +123,8 @@ public class AnalyzerPanel extends SimpleToolWindowPanel implements DataProvider
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 
     private static final class MyAutoScrollToSourceHandler extends AutoScrollToSourceHandler {
         MyAutoScrollToSourceHandler() {

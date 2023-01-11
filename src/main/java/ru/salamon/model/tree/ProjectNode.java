@@ -1,36 +1,37 @@
 package ru.salamon.model.tree;
 
-import com.google.common.collect.Streams;
 import com.intellij.ui.treeStructure.SimpleNode;
-import ru.salamon.resources.ResourceFetcher;
-
-import java.util.ResourceBundle;
+import ru.salamon.model.BuildConfigurationModel;
+import ru.salamon.model.ProjectModel;
 import java.util.stream.Collectors;
 
 public class ProjectNode extends TreeNode {
 
-    private final ResourceBundle bundle = ResourceBundle.getBundle("teamcity");
-    private final String projectId;
+    private final ProjectModel projectModel;
 
-    public ProjectNode(SimpleNode aParent, String projectId) {
+    public ProjectNode(SimpleNode aParent, ProjectModel projectModel) {
         super(aParent);
-        this.projectId = projectId;
+        this.projectModel = projectModel;
     }
-
 
     @Override
     public String getName() {
-        return ResourceFetcher.fetchProjectName(this.projectId);
+        return projectModel.getName();
     }
 
     @Override
     protected TreeNode[] buildChildren() {
-        var project = ResourceFetcher.fetchProject(this.projectId);
-        return Streams.concat(
-                        project.getChildProjects().stream().map(NodeFactory::getNode),
-                        project.getBuildConfigurations().stream().map(NodeFactory::getNode)
-                ).collect(Collectors.toList())
+        return projectModel.getProjects()
+                .stream()
+                .map(treeModel -> {
+                    if (treeModel instanceof ProjectModel) {
+                        return new ProjectNode(this, (ProjectModel) treeModel);
+                    } else {
+                        return new BuildConfigurationNode(this, (BuildConfigurationModel) treeModel);
+                    }
+                })
+                .collect(Collectors.toSet())
                 .toArray(new TreeNode[1]);
-
     }
+
 }
