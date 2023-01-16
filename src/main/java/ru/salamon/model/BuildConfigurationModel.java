@@ -4,8 +4,8 @@ import java.util.Set;
 
 public class BuildConfigurationModel extends TreeModel {
 
-    private String name;
-    private Set<BuildModel> buildModels;
+    private final String name;
+    private final Set<BuildModel> buildModels;
 
     public BuildConfigurationModel(String name, Set<BuildModel> buildModels) {
         this.name = name;

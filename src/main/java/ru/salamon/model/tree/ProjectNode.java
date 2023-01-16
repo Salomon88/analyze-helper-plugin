@@ -16,7 +16,7 @@ public class ProjectNode extends TreeNode {
 
     @Override
     public String getName() {
-        return projectModel.getName();
+        return projectModel.getName() + " project";
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ProjectNode extends TreeNode {
                     }
                 })
                 .collect(Collectors.toSet())
-                .toArray(new TreeNode[1]);
+                .toArray(TreeNode[]::new);
     }
 
 }

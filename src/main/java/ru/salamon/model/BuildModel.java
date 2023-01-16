@@ -4,8 +4,8 @@ import java.util.Set;
 
 public class BuildModel {
 
-    private String buildName;
-    private Set<TestRunModel> testRuns;
+    private final String buildName;
+    private final Set<TestRunModel> testRuns;
 
 
     public BuildModel(String buildName, Set<TestRunModel> testRuns) {

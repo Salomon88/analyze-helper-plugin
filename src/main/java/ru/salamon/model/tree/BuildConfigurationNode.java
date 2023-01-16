@@ -16,12 +16,13 @@ class BuildConfigurationNode extends TreeNode {
         return buildConfigurationModel
                 .getBuildModels()
                 .stream()
+                .filter(buildConf -> buildConf.getTestRuns().stream().anyMatch(testRun -> !testRun.getMetadata().isEmpty()))
                 .map(build -> new BuildNode(this, build))
                 .toArray(BuildNode[]::new);
     }
 
     @Override
     public String getName() {
-        return buildConfigurationModel.getName();
+        return buildConfigurationModel.getName() + " configuration";
     }
 }

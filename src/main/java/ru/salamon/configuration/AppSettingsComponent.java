@@ -1,61 +1,33 @@
 package ru.salamon.configuration;
 
-// Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-
-import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.*;
-import com.intellij.ui.table.JBTable;
 import com.intellij.util.ui.FormBuilder;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-/**
- * Supports creating and managing a {@link JPanel} for the Settings Dialog.
- */
 public class AppSettingsComponent {
 
     private final JPanel myMainPanel;
-    private final JBTextField myUserNameText = new JBTextField();
-    private final JPanel projectsIds;
+    private final JLabel myLabel = new JBLabel("List of teamcity project identifiers. Each project id must be placed on a new line");
+    private final JBTextArea projectsIds = new JBTextArea(15, 1);
 
     public AppSettingsComponent() {
-        var dataModel = new AbstractTableModel() {
-            public int getColumnCount() {
-                return 1;
-            }
-
-            public int getRowCount() {
-                return 9;
-            }
-
-            public Object getValueAt(int row, int col) {
-                return row;
-            }
-        };
-        var table = new JBTable(dataModel);
-//        JScrollPane scrollpane = new JBScrollPane(table);
-
-        projectsIds = ToolbarDecorator
-                .createDecorator(table)
-                .setAddAction((param) -> {
-
-
-                    for (int i = 0; i < 10; i++) {
-                        System.out.println("Data at row " + " " + i + " and col " + 0 + " " + table.getModel().getValueAt(i, 0));
-                        table.getModel().setValueAt("project id " + i, i, 0);
-                        System.out.println("After at row " + " " + i + " and col " + 0 + " " + table.getModel().getValueAt(i, 0));
-                    }
-                    //dataModel.fireTableDataChanged();
-                    table.updateUI();
-                    System.out.println("All rows were updated");
-                })
-                .setRemoveAction((param) -> System.out.println("Removing from table"))
-                .createPanel();
+        var settings = AppSettingsState.getInstance();
+        projectsIds.setText(
+                settings
+                        .getState()
+                        .getProjectIds()
+                        .stream()
+                        .map(Objects::toString)
+                        .collect(Collectors.joining("\n"))
+                        .trim()
+        );
         myMainPanel = FormBuilder.createFormBuilder()
-//                .addLabeledComponent(new JBLabel("Enter user name: "), myUserNameText, 1, false)
+                .addComponent(myLabel)
                 .addComponent(projectsIds, 1)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
@@ -65,25 +37,17 @@ public class AppSettingsComponent {
         return myMainPanel;
     }
 
+    public Set<String> getProjectIds() {
+        return Stream
+                .of(projectsIds.getText().split("\n"))
+                .collect(Collectors.toSet());
+    }
+
+    public void addProjectIds(Set<String>projectIds) {
+        projectsIds.setText(String.join("\n", projectIds).trim());
+    }
+
     public JComponent getPreferredFocusedComponent() {
-        return myUserNameText;
+        return projectsIds;
     }
-
-    @NotNull
-    public String getUserNameText() {
-        return myUserNameText.getText();
-    }
-
-    public void setUserNameText(@NotNull String newText) {
-        myUserNameText.setText(newText);
-    }
-
-    public String[] getProjectIds() {
-        return new String[3];
-    }
-//
-//    public void setIdeaUserStatus(boolean newStatus) {
-//        myIdeaUserStatus.setSelected(newStatus);
-//    }
-
 }

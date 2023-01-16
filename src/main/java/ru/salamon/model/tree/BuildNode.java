@@ -4,8 +4,6 @@ import com.intellij.ui.treeStructure.CachingSimpleNode;
 import com.intellij.ui.treeStructure.SimpleNode;
 import ru.salamon.model.BuildModel;
 
-import java.util.stream.Collectors;
-
 class BuildNode extends CachingSimpleNode {
 
     private final BuildModel buildModel;
@@ -26,8 +24,8 @@ class BuildNode extends CachingSimpleNode {
                 .getTestRuns()
                 .stream()
                 .map(testRun -> new TestRunNode(this, testRun))
-                .collect(Collectors.toSet())
-                .toArray(new TestRunNode[0]);
-        }
+                .toArray(TestRunNode[]::new);
+
+    }
 
 }

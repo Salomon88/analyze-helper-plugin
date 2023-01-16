@@ -9,9 +9,8 @@ import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.ui.Splitter;
-import com.intellij.openapi.ui.panel.ProgressPanel;
-import com.intellij.openapi.ui.panel.ProgressPanelBuilder;
 import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.AutoScrollToSourceHandler;
 import com.intellij.ui.OnePixelSplitter;
 import com.intellij.ui.ScrollPaneFactory;
@@ -25,34 +24,44 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.salamon.FailureInspectionFilter;
+import ru.salamon.configuration.AppSettingsState;
 import ru.salamon.model.ProjectModel;
 import ru.salamon.model.builder.ProjectBuilder;
-import ru.salamon.model.tree.ProjectNode;
+import ru.salamon.model.tree.RootNode;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import java.awt.*;
-import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static com.intellij.util.PathUtil.getLocalPath;
 
 public class AnalyzerPanel extends SimpleToolWindowPanel implements DataProvider, Disposable {
 
     private final Project myProject;
+    private final ToolWindow toolWindow;
     private final SimpleTree myTree;
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("teamcity");
 
-    public AnalyzerPanel(@NotNull Project project) {
+    public AnalyzerPanel(@NotNull Project project, ToolWindow toolWindow) {
         super(false, true);
         myProject = project;
+        this.toolWindow = toolWindow;
         StructureTreeModel<SimpleTreeStructure> treeModel = new StructureTreeModel<>(
                 new SimpleTreeStructure() {
                     @NotNull
                     @Override
-                    public ProjectNode getRootElement() {
-                        return new ProjectNode(null, (ProjectModel) ProjectBuilder.project());
+                    public RootNode getRootElement() {
+                        var projectBuilder = myProject.getService(ProjectBuilder.class);
+                        return new RootNode(AppSettingsState
+                                .getInstance()
+                                .getProjectIds()
+                                .stream()
+                                .map(projectBuilder::project)
+                                .map(treeModel -> (ProjectModel) treeModel)
+                                .collect(Collectors.toSet())
+                        );
                     }
                 }, null, myProject
         );
@@ -108,7 +117,7 @@ public class AnalyzerPanel extends SimpleToolWindowPanel implements DataProvider
                 var possibleFilePath = getLocalPath(matcher.group(1));
                 var vf = LocalFileSystem.getInstance().findFileByPath(myProject.getBasePath() + "/" + possibleFilePath);
                 if (vf != null) {
-                    return PsiNavigationSupport.getInstance().createNavigatable(myProject, vf, Integer.parseInt(matcher.group(2)));
+                    return PsiNavigationSupport.getInstance().createNavigatable(myProject, vf, Integer.parseInt(matcher.group(2)) - 1);
                 }
 //                else {
 //                    NotificationGroupManager.getInstance().getNotificationGroup("PStorm test analyzer")
@@ -124,6 +133,7 @@ public class AnalyzerPanel extends SimpleToolWindowPanel implements DataProvider
 
     @Override
     public void dispose() {
+        toolWindow.hide();
     }
 
     private static final class MyAutoScrollToSourceHandler extends AutoScrollToSourceHandler {

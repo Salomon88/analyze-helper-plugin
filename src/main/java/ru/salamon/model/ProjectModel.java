@@ -4,8 +4,8 @@ import java.util.Set;
 
 public class ProjectModel extends TreeModel {
 
-    private String name;
-    private Set<TreeModel> projects;
+    private final String name;
+    private final Set<TreeModel> projects;
 
     public ProjectModel(String name, Set<TreeModel> projects) {
         this.name = name;

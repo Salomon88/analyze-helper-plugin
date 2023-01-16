@@ -2,7 +2,6 @@ package ru.salamon.model.tree;
 
 import com.intellij.ui.treeStructure.CachingSimpleNode;
 import com.intellij.ui.treeStructure.SimpleNode;
-import org.jetbrains.teamcity.rest.TestRun;
 import ru.salamon.model.TestRunModel;
 
 import java.util.stream.Collectors;
@@ -18,7 +17,7 @@ class TestRunNode extends CachingSimpleNode {
 
     @Override
     public String getName() {
-        return testRunModel.getName();
+        return testRunModel.getName() + " test run";
     }
 
 

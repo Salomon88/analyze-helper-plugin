@@ -8,8 +8,8 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @State(
         name = "ru.salamon.configuration.AppSettingsState",
@@ -17,7 +17,7 @@ import java.util.List;
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
-    public List<String> projectIds = new ArrayList<String>();
+    private final Set<String> projectIds = new HashSet<>();
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);
@@ -27,6 +27,11 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
     @Override
     public AppSettingsState getState() {
         return this;
+    }
+
+    @NotNull
+    public Set<String> getProjectIds() {
+        return projectIds;
     }
 
     @Override

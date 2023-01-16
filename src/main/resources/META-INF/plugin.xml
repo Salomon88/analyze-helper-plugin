@@ -22,12 +22,8 @@
     </extensions>
 
     <actions>
-        <action id="ru.salamon.actions.FetchBuildListAction" class="ru.salamon.actions.FetchBuildListAction"
-                text="Analyze Build Test Failures">
-            <add-to-group group-id="AnalyzeActionsPopup" anchor="last"/>
-        </action>
         <action id="ru.salamon.actions.AddMetadataContentAction" class="ru.salamon.actions.AddMetadataContentAction"
-                text="Add Metadata">
+                text="Analyze Build Runs">
             <add-to-group group-id="AnalyzeActionsPopup" anchor="last"/>
         </action>
     </actions>

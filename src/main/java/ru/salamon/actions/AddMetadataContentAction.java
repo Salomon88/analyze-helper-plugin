@@ -16,7 +16,7 @@ public class AddMetadataContentAction extends AnAction {
         if (toolWindow != null && toolWindow.getContentManager().getContents().length == 0) {
             toolWindow
                     .getContentManager()
-                    .addContent(ContentFactory.SERVICE.getInstance().createContent(new AnalyzerPanel(e.getProject()), "Analyzer Content", true));
+                    .addContent(ContentFactory.SERVICE.getInstance().createContent(new AnalyzerPanel(e.getProject(), toolWindow), "Analyzer Content", true));
             toolWindow.activate(null);
         }
     }

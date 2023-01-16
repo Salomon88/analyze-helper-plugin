@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.List;
 
 public class AppSettingsConfigurable implements Configurable {
 
@@ -31,24 +30,21 @@ public class AppSettingsConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-//        AppSettingsState settings = AppSettingsState.getInstance();
-//        boolean modified = !mySettingsComponent.getUserNameText().equals(settings.userId);
-//        modified |= mySettingsComponent.getIdeaUserStatus() != settings.ideaStatus;
-//        return modified;
-        return false;
+        var settings = AppSettingsState.getInstance();
+        return !settings.getState().getProjectIds().equals(mySettingsComponent.getProjectIds());
     }
 
     @Override
     public void apply() {
-        AppSettingsState settings = AppSettingsState.getInstance();
-        settings.projectIds = List.of(mySettingsComponent.getProjectIds());
+        var settings = AppSettingsState.getInstance();
+        settings.getState().getProjectIds().clear();
+        settings.getState().getProjectIds().addAll(mySettingsComponent.getProjectIds());
     }
 
     @Override
     public void reset() {
-//        AppSettingsState settings = AppSettingsState.getInstance();
-//        mySettingsComponent.setUserNameText(settings.userId);
-//        mySettingsComponent.setIdeaUserStatus(settings.ideaStatus);
+        var settings = AppSettingsState.getInstance();
+        mySettingsComponent.addProjectIds(settings.getProjectIds());
     }
 
     @Override
