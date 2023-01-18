@@ -1,8 +1,12 @@
 package ru.salamon.model;
 
+import ru.salamon.model.tree.BuildConfigurationNode;
+import ru.salamon.model.tree.ProjectNode;
+import ru.salamon.model.tree.TreeNode;
+
 import java.util.Set;
 
-public class BuildConfigurationModel extends TreeModel {
+public class BuildConfigurationModel implements TreeModel {
 
     private final String name;
     private final Set<BuildModel> buildModels;
@@ -19,4 +23,10 @@ public class BuildConfigurationModel extends TreeModel {
     public Set<BuildModel> getBuildModels() {
         return buildModels;
     }
+
+    @Override
+    public TreeNode createNode(TreeNode treeNode) {
+        return new BuildConfigurationNode((ProjectNode) treeNode, this);
+    }
+
 }

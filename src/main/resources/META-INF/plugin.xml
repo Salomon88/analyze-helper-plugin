@@ -24,7 +24,7 @@
     <actions>
         <action id="ru.salamon.actions.AddMetadataContentAction" class="ru.salamon.actions.AddMetadataContentAction"
                 text="Analyze Build Runs">
-            <add-to-group group-id="AnalyzeActionsPopup" anchor="last"/>
+            <add-to-group group-id="InspectCodeGroup" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>

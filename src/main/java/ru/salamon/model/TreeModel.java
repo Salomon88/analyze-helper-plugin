@@ -1,4 +1,9 @@
 package ru.salamon.model;
 
-public class TreeModel {
+import ru.salamon.model.tree.TreeNode;
+
+public interface TreeModel {
+
+  TreeNode createNode(TreeNode treeNode);
+
 }

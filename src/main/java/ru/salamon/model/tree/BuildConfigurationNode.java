@@ -2,7 +2,7 @@ package ru.salamon.model.tree;
 
 import ru.salamon.model.BuildConfigurationModel;
 
-class BuildConfigurationNode extends TreeNode {
+public class BuildConfigurationNode extends TreeNode {
 
     private final BuildConfigurationModel buildConfigurationModel;
 

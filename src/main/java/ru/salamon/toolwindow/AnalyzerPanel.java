@@ -6,11 +6,22 @@ import com.intellij.ide.util.PsiNavigationSupport;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
+import com.intellij.openapi.vfs.newvfs.VfsImplUtil;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.impl.PsiFileEx;
+import com.intellij.psi.impl.file.PsiFileImplUtil;
+import com.intellij.psi.impl.source.PsiFileImpl;
 import com.intellij.ui.AutoScrollToSourceHandler;
 import com.intellij.ui.OnePixelSplitter;
 import com.intellij.ui.ScrollPaneFactory;
@@ -87,16 +98,6 @@ public class AnalyzerPanel extends SimpleToolWindowPanel implements DataProvider
         return splitter;
     }
 
-
-    //TODO add all these configuration and add ability to add custom
-    //ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDefault
-    // ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDefaultPhp8
-    //ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDisabled
-    //ijplatform_master_PhpStormIntegrationInspectionsTestsBucketsDisabledPhp8
-
-    //+ /usesnpe/UsesRedundant.php:67 WEAK WARNING (int) 'Type cast is redundant'
-    // + wp-includes/sodium_compat/src/Core32/HSalsa20.php
-
     /**
      * Method which navigate to concrete position in file using the following pattern: + /wp-admin/edit-link-form.php:161 WEAK WARNING (int) 'Type cast is redundant'
      *
@@ -116,8 +117,11 @@ public class AnalyzerPanel extends SimpleToolWindowPanel implements DataProvider
             if (matcher.find()) {
                 var possibleFilePath = getLocalPath(matcher.group(1));
                 var vf = LocalFileSystem.getInstance().findFileByPath(myProject.getBasePath() + "/" + possibleFilePath);
-                if (vf != null) {
-                    return PsiNavigationSupport.getInstance().createNavigatable(myProject, vf, Integer.parseInt(matcher.group(2)) - 1);
+                Document document;
+                if (vf != null &&  (document = FileDocumentManager.getInstance().getDocument(vf)) !=null) {
+                    var offset = document
+                            .getLineStartOffset(Integer.parseInt(matcher.group(2))-1);
+                    return PsiNavigationSupport.getInstance().createNavigatable(myProject, vf, offset);
                 }
 //                else {
 //                    NotificationGroupManager.getInstance().getNotificationGroup("PStorm test analyzer")

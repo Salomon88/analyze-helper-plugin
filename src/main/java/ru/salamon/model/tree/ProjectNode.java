@@ -1,8 +1,9 @@
 package ru.salamon.model.tree;
 
 import com.intellij.ui.treeStructure.SimpleNode;
-import ru.salamon.model.BuildConfigurationModel;
 import ru.salamon.model.ProjectModel;
+import ru.salamon.model.TreeModel;
+
 import java.util.stream.Collectors;
 
 public class ProjectNode extends TreeNode {
@@ -23,13 +24,7 @@ public class ProjectNode extends TreeNode {
     protected TreeNode[] buildChildren() {
         return projectModel.getProjects()
                 .stream()
-                .map(treeModel -> {
-                    if (treeModel instanceof ProjectModel) {
-                        return new ProjectNode(this, (ProjectModel) treeModel);
-                    } else {
-                        return new BuildConfigurationNode(this, (BuildConfigurationModel) treeModel);
-                    }
-                })
+                .map(treeModel->treeModel.createNode(this))
                 .collect(Collectors.toSet())
                 .toArray(TreeNode[]::new);
     }
